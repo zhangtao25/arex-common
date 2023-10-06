@@ -23,7 +23,6 @@ const AppPaneLayout: FC<AppPaneLayoutProps> = ({
 
   try {
     if (paneEvent) {
-      console.log(paneEvent, 'paneEvent');
       initPanePrimarySize = JSON.parse(paneEvent)[0].size - 0;
       initPaneSecondarySize = JSON.parse(paneEvent)[1].size - 0;
     }
@@ -39,7 +38,6 @@ const AppPaneLayout: FC<AppPaneLayoutProps> = ({
       `}
       vertical={vertical}
       onChange={(rawSizes) => {
-        console.log(rawSizes);
         const all = rawSizes.reduce((acc, cur) => acc + cur, 0);
         const sizes = rawSizes.map((size) => (size / all) * 100);
         const type = vertical ? 'vertical' : 'horizontal';

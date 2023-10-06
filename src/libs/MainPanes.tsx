@@ -3,7 +3,8 @@ import { css } from '@emotion/react';
 import { App, Select, theme } from 'antd';
 import { FC, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import DraggableTabs from "./DraggableTabs";
+
+import DraggableTabs from './DraggableTabs';
 
 // import { MenuTypeEnum, PageTypeEnum } from '../../constant';
 // import { treeFind } from '../../helpers/collection/util';
@@ -17,10 +18,7 @@ import DraggableTabs from "./DraggableTabs";
 // import Request from './Request.tsx';
 // import RunPane from './RunPane';
 const { useToken } = theme;
-const RequestTabTitle: FC<{ method: string; name: string }> = ({
-  method,
-  name,
-}) => {
+const RequestTabTitle: FC<{ method: string; name: string }> = ({ method, name }) => {
   return (
     <div>
       <span
@@ -41,12 +39,10 @@ const RequestTabTitle: FC<{ method: string; name: string }> = ({
   );
 };
 
-interface MainTabsProps {
-  environments: {key:string,value:string}[];
+interface MainPanesProps {
+  environments: any[];
 }
-const MainTabs:FC<MainTabsProps> = ({
-    environments=[]
-                                    }) => {
+const MainPanes: FC<MainPanesProps> = ({ environments = [] }) => {
   const { message, modal } = App.useApp();
   const showConfirm = ({ edited }: any) => {
     const { confirm } = modal;
@@ -80,9 +76,7 @@ const MainTabs:FC<MainTabsProps> = ({
   //   environments,
   //   collectionTreeData,
   // } = store.globalState;
-  const removeTab = (targetKey: string) => {
-
-  };
+  const removeTab = (targetKey: string) => {};
   const addTab = () => {
     console.log();
   };
@@ -94,28 +88,27 @@ const MainTabs:FC<MainTabsProps> = ({
     <div>
       <DraggableTabs
         activeKey={''}
-        onChange={(activePane) => {
-        }}
+        onChange={(activePane) => {}}
         onEdit={handleTabsEdit}
-        size="small"
-        type="editable-card"
+        size='small'
+        type='editable-card'
         tabBarGutter={-1}
         items={[
           {
-            label:'Request',
-            key:'r',
-            children:<div>Request</div>,
+            label: 'Request',
+            key: 'r',
+            children: <div>Request</div>,
           },
           {
-            label:'Request',
-            key:'2',
-            children:<div>Request</div>,
+            label: 'Request',
+            key: '2',
+            children: <div>Request</div>,
           },
           {
-            label:'Request',
-            key:'3',
-            children:<div>Request</div>,
-          }
+            label: 'Request',
+            key: '3',
+            children: <div>Request</div>,
+          },
         ]}
         tabBarExtraContent={
           <Select
@@ -131,11 +124,10 @@ const MainTabs:FC<MainTabsProps> = ({
               marginRight: '10px',
             }}
             options={[
-                ...environments.map(({key,value})=>({label:key,value})),
+              ...environments.map(({ key, value }) => ({ label: key, value })),
               { label: 'No environment', value: 'No environment' },
             ]}
-            onSelect={(value) => {
-            }}
+            onSelect={(value) => {}}
           />
         }
       />
@@ -143,4 +135,4 @@ const MainTabs:FC<MainTabsProps> = ({
   );
 };
 
-export default MainTabs;
+export default MainPanes;
