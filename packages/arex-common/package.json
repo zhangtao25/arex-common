@@ -5,6 +5,7 @@
   "main": "dist/arex-common.umd.cjs",
   "module": "dist/arex-common.js",
   "scripts": {
+    "prepare": "pnpm run do-build",
     "build:code": "tsc && vite build",
     "do-build": "pnpm run build:code"
   },
