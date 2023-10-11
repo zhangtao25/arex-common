@@ -14,13 +14,6 @@ export default defineConfig({
   },
   base: 'arex-common',
   server: {
-    port: 16868,
-    proxy: {
-      '/report': {
-        target: 'http://10.5.153.1:8090',
-        changeOrigin: true,
-        rewrite: (path) => path.replace('/report', '/api'),
-      },
-    },
+    port: 16868
   },
 });
