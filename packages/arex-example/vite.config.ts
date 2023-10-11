@@ -4,12 +4,12 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   plugins: [
     react({
-      // jsxImportSource: '@emotion/react',
+      jsxImportSource: '@emotion/react',
     })
   ],
   resolve: {
     alias: {
-      // 'arex-common': path.resolve('../arex-common/src'),
+      'arex-common': path.resolve('../arex-common/src'),
     },
   },
   base: 'arex-common',

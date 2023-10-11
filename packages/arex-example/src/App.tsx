@@ -1,3 +1,4 @@
+import { Allotment } from 'allotment';
 import { Button, ConfigProvider } from 'antd';
 import { CollectionsSaveRequest } from 'arex-common';
 import { useState } from 'react';
@@ -16,6 +17,7 @@ const App = () => {
         // algorithm: [darkAlgorithm],
       }}
     >
+      <Allotment></Allotment>
       <Button
         onClick={() => {
           // @ts-ignore
