@@ -1,16 +1,29 @@
-import { Button } from 'antd';
+import { Button, ConfigProvider } from 'antd';
 import { CollectionsSaveRequest } from 'arex-common';
 import { useState } from 'react';
 
-// import SaveRequestModal from '@/libs/components/SaveRequest.tsx';
+// const { darkAlgorithm } = theme;
 import treeData from './mock.json';
 
 const App = () => {
-  const [open, setOpen] = useState(true);
-
-
+  const [open, setOpen] = useState(false);
   return (
-    <div>
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: '#1890ff',
+        },
+        // algorithm: [darkAlgorithm],
+      }}
+    >
+      <Button
+        onClick={() => {
+          // @ts-ignore
+          window.__locale__ = 'cn';
+        }}
+      >
+        切换语言
+      </Button>
       <Button
         onClick={() => {
           setOpen(true);
@@ -37,7 +50,7 @@ const App = () => {
           setOpen(false);
         }}
       />
-    </div>
+    </ConfigProvider>
   );
 };
 

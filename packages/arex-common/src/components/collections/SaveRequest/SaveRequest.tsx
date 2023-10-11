@@ -2,22 +2,14 @@ import { FolderOutlined, SearchOutlined } from '@ant-design/icons';
 import { css } from '@emotion/react';
 import { Breadcrumb, Button, Input, InputRef, Modal, Space, Spin, theme, Typography } from 'antd';
 import { FC, useMemo, useRef, useState } from 'react';
-import {useTranslation} from "../../../useTranslation.ts";
-import {ItemType, TreeNode} from "../../../token.ts";
-import {findNodeByKey, findPathByKey, searchNodes} from "../../../helpers";
-import SaveRequestDivider from "../../../widgets/SaveRequestDivider.tsx";
-import SaveRequestMainBox from "../../../widgets/SaveRequestMainBox.tsx";
-import MatchRow from "../../../widgets/MatchRow.tsx";
+
+import { findNodeByKey, findPathByKey, searchNodes } from '../../../helpers';
+import { ItemType, TreeNode } from '../../../token.ts';
+import { useTranslation } from '../../../useTranslation.ts';
+import MatchRow from '../../../widgets/MatchRow.tsx';
 import RequestItemDisplay from '../../../widgets/RequestItemDisplay.tsx';
-
-// import { ItemType, TreeNode } from '@/remocollab/prc-base/token.ts';
-
-// import { findNodeByKey, findPathByKey, searchNodes } from '../helpers';
-// import { useTranslation } from '../helpers/useTranslation.ts';
-// import MatchRow from '../widgets/MatchRow.tsx';
-// import RequestItemDisplay from '../widgets/RequestItemDisplay.tsx';
-// import SaveRequestDivider from '../widgets/SaveRequestDivider.tsx';
-// import SaveRequestMainBox from '../widgets/SaveRequestMainBox.tsx';
+import SaveRequestDivider from '../../../widgets/SaveRequestDivider.tsx';
+import SaveRequestMainBox from '../../../widgets/SaveRequestMainBox.tsx';
 
 const { Text } = Typography;
 const { useToken } = theme;
@@ -27,9 +19,9 @@ interface FooterProps {
   onNewFolder: () => void;
   locale: string;
 }
-const Footer: FC<FooterProps> = ({ onClose, onSave, onNewFolder, locale }) => {
+const Footer: FC<FooterProps> = ({ onClose, onSave, onNewFolder }) => {
   const token = useToken();
-  const { t } = useTranslation(locale);
+  const { t } = useTranslation();
   return (
     <div
       css={css`
@@ -91,26 +83,24 @@ locale:语言
 allowTypes:允许选择的类型
  */
 const CollectionsSaveRequest: FC<SaveRequestModalProps> = ({
-                                                             open,
-                                                             treeData,
-                                                             requestName,
-                                                             onCreateFolder,
-                                                             onSave,
-                                                             onClose,
-                                                             locale,
-                                                             allowTypes = [1, 3],
-                                                             // yuexuSelectType:[1,2,3]
-                                                           }) => {
+  open,
+  treeData,
+  requestName,
+  onCreateFolder,
+  onSave,
+  onClose,
+  locale,
+  allowTypes = [1, 3],
+}) => {
   const [newFolderMode, setNewFolderMode] = useState(false);
   const [loding, setLoding] = useState(false);
   const requestNameInputRef = useRef<InputRef>(null);
   const folderNameInputRef = useRef<InputRef>(null);
-  // const token = useToken();
-  const { t } = useTranslation(locale);
+  const { t } = useTranslation();
   const [selectedKey, setSelectedKey] = useState<string | undefined>(undefined);
   const selectedTreeData = useMemo(() => {
     // 这里不能引用传递
-    let zuizhong:any = [];
+    let zuizhong: any = [];
     if (selectedKey) {
       zuizhong = findNodeByKey(treeData, selectedKey)?.item || treeData;
     } else {
@@ -128,7 +118,7 @@ const CollectionsSaveRequest: FC<SaveRequestModalProps> = ({
     if (!searchValue) {
       return [];
     }
-    return searchNodes(treeData, searchValue,allowTypes);
+    return searchNodes(treeData, searchValue, allowTypes);
   }, [searchValue]);
   return (
     <Modal
@@ -144,7 +134,7 @@ const CollectionsSaveRequest: FC<SaveRequestModalProps> = ({
           }}
           onClose={onClose}
           onSave={() => {
-            onSave(selectedKey||'', requestNameInputRef?.current?.input?.value || '');
+            onSave(selectedKey || '', requestNameInputRef?.current?.input?.value || '');
           }}
         />
       }
@@ -201,7 +191,7 @@ const CollectionsSaveRequest: FC<SaveRequestModalProps> = ({
                   index <
                   [{ name: 'root', key: 'root' }, ...(findPathByKey(treeData, selectedKey) || [])]
                     .length -
-                  1
+                    1
                 ) {
                   return {
                     title: (
@@ -278,7 +268,7 @@ const CollectionsSaveRequest: FC<SaveRequestModalProps> = ({
         {/*分模式*/}
         {/*普通模式*/}
         {!searchValue &&
-          selectedTreeData.map((item:any, index:any) => {
+          selectedTreeData.map((item: any, index: any) => {
             return (
               <MatchRow
                 allowTypes={allowTypes}
@@ -300,7 +290,7 @@ const CollectionsSaveRequest: FC<SaveRequestModalProps> = ({
           })}
         {/*搜索模式*/}
         {searchValue &&
-          searchedTreeData.map((item:any, index:any) => {
+          searchedTreeData.map((item: any, index: any) => {
             return (
               <MatchRow
                 allowTypes={allowTypes}
