@@ -23,20 +23,11 @@ export enum ItemType {
 export interface TreeNode {
   key: string;
   name: string;
+  type: number;
   item?: TreeNode[]; // 递归定义，用于表示子节点
-  request?: ApiRequestData;
-  response?: any[]; // 如果有具体的响应结构，可以定义更具体的类型
-}
-
-export interface ApiRequestData {
-  method: RequestMethods;
-  header: any[]; // 如果有具体的头部结构，可以定义更具体的类型
-  url?: ApiUrl;
-}
-
-interface ApiUrl {
-  raw: string;
-  path: string[];
+  request?: {
+    method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+  };
 }
 
 //颜色配置

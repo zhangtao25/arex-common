@@ -1,23 +1,19 @@
-import { Allotment } from 'allotment';
 import { Button, ConfigProvider } from 'antd';
 import { CollectionsSaveRequest } from 'arex-common';
 import { useState } from 'react';
 
-// const { darkAlgorithm } = theme;
 import treeData from './mock.json';
 
 const App = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   return (
     <ConfigProvider
       theme={{
         token: {
           colorPrimary: '#1890ff',
         },
-        // algorithm: [darkAlgorithm],
       }}
     >
-      <Allotment></Allotment>
       <Button
         onClick={() => {
           // @ts-ignore
@@ -35,7 +31,6 @@ const App = () => {
       </Button>
       {/*treeData是postman类型，需要转一下*/}
       <CollectionsSaveRequest
-        locale={'cn'}
         // @ts-ignore
         treeData={treeData}
         open={open}

@@ -4,7 +4,7 @@ import { Breadcrumb, Button, Input, InputRef, Modal, Space, Spin, theme, Typogra
 import { FC, useMemo, useRef, useState } from 'react';
 
 import { findNodeByKey, findPathByKey, searchNodes } from '../../../helpers';
-import { ItemType, TreeNode } from '../../../token.ts';
+import { TreeNode } from '../../../token.ts';
 import { useTranslation } from '../../../useTranslation.ts';
 import MatchRow from '../../../widgets/MatchRow.tsx';
 import RequestItemDisplay from '../../../widgets/RequestItemDisplay.tsx';
@@ -17,7 +17,6 @@ interface FooterProps {
   onClose: () => void;
   onSave: () => void;
   onNewFolder: () => void;
-  locale: string;
 }
 const Footer: FC<FooterProps> = ({ onClose, onSave, onNewFolder }) => {
   const token = useToken();
@@ -67,7 +66,6 @@ interface SaveRequestModalProps {
   onSave: (folderKey: string, requestName: string) => void;
   onCreateFolder: (newFolderName: string, parentFolderKey: string) => Promise<string>;
   onClose: () => void;
-  locale: string;
   allowTypes?: number[];
 }
 
@@ -79,7 +77,6 @@ treeData:树形结构数据
 onSave:保存
 onCreateFolder:创建文件夹
 onClose:关闭
-locale:语言
 allowTypes:允许选择的类型
  */
 const CollectionsSaveRequest: FC<SaveRequestModalProps> = ({
@@ -89,28 +86,27 @@ const CollectionsSaveRequest: FC<SaveRequestModalProps> = ({
   onCreateFolder,
   onSave,
   onClose,
-  locale,
   allowTypes = [1, 3],
 }) => {
   const [newFolderMode, setNewFolderMode] = useState(false);
-  const [loding, setLoding] = useState(false);
+  const [loading, setLoading] = useState(false);
   const requestNameInputRef = useRef<InputRef>(null);
   const folderNameInputRef = useRef<InputRef>(null);
   const { t } = useTranslation();
   const [selectedKey, setSelectedKey] = useState<string | undefined>(undefined);
   const selectedTreeData = useMemo(() => {
     // 这里不能引用传递
-    let zuizhong: any = [];
+    let temp: any = [];
     if (selectedKey) {
-      zuizhong = findNodeByKey(treeData, selectedKey)?.item || treeData;
+      temp = findNodeByKey(treeData, selectedKey)?.item || treeData;
     } else {
-      zuizhong = treeData;
+      temp = treeData;
     }
-    if (loding) {
-      return zuizhong.concat({ name: 'test', key: 'key', added: true });
+    if (loading) {
+      return temp.concat({ name: 'added', key: 'added', added: true });
     }
-    return zuizhong;
-  }, [treeData, selectedKey, loding]);
+    return temp;
+  }, [treeData, selectedKey, loading]);
 
   const [searchValue, setSearchValue] = useState('');
 
@@ -128,7 +124,6 @@ const CollectionsSaveRequest: FC<SaveRequestModalProps> = ({
       open={open}
       footer={
         <Footer
-          locale={locale}
           onNewFolder={() => {
             setNewFolderMode(true);
           }}
@@ -248,14 +243,14 @@ const CollectionsSaveRequest: FC<SaveRequestModalProps> = ({
             <Button
               size={'small'}
               onClick={() => {
-                setLoding(true);
+                setLoading(true);
                 setNewFolderMode(false);
                 onCreateFolder(
                   folderNameInputRef?.current?.input?.value || '',
                   selectedKey || '',
                 ).then((folderID) => {
                   setSelectedKey(folderID);
-                  setLoding(false);
+                  setLoading(false);
                 });
               }}
             >
@@ -280,7 +275,7 @@ const CollectionsSaveRequest: FC<SaveRequestModalProps> = ({
               >
                 <Spin spinning={Boolean(item.added)}>
                   <RequestItemDisplay
-                    itemType={item.request ? ItemType.REQUEST : ItemType.FOLDER}
+                    itemType={item.type}
                     name={item.name}
                     request={item.request}
                   />

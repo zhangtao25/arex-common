@@ -1,10 +1,13 @@
 import { FolderOutlined } from '@ant-design/icons';
 import { css } from '@emotion/react';
 import { FC } from 'react';
-import {ApiRequestData, ItemType, RequestColors} from "../token.ts";
 
-// import { ApiRequestData, ItemType, RequestColors } from '@/remocollab/prc-base/token.ts';
-const RequestDisplay: FC<{ request: ApiRequestData; name: string }> = ({ request, name }) => {
+import { ItemType, RequestColors } from '../token.ts';
+
+const RequestDisplay: FC<{
+  request: { method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' };
+  name: string;
+}> = ({ request, name }) => {
   return (
     <div
       css={css`
@@ -35,17 +38,35 @@ const FolderDisplay: FC<{ name: string }> = ({ name }) => {
     </div>
   );
 };
-
+const ExampleDisplay: FC<{ name: string }> = ({ name }) => {
+  return (
+    <div>
+      <span
+        css={css`
+          margin-right: 6px;
+          border: 1px solid;
+          font-size: 12px;
+          line-height: 12px;
+          color: rgba(0, 0, 0, 0.65);
+        `}
+      >
+        case
+      </span>
+      {name}
+    </div>
+  );
+};
 // itemType key
 const RequestItemDisplay: FC<{
   itemType: ItemType;
-  request: ApiRequestData | undefined;
+  request: { method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' } | undefined;
   name: string;
 }> = ({ itemType, request, name }) => {
   return (
     <div>
       {itemType === ItemType.REQUEST && request && <RequestDisplay name={name} request={request} />}
       {itemType === ItemType.FOLDER && <FolderDisplay name={name} />}
+      {itemType === ItemType.EXAMPLE && <ExampleDisplay name={name} />}
     </div>
   );
 };
