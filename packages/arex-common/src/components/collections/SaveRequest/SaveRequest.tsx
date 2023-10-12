@@ -17,8 +17,9 @@ interface FooterProps {
   onClose: () => void;
   onSave: () => void;
   onNewFolder: () => void;
+  saveLoading: boolean;
 }
-const Footer: FC<FooterProps> = ({ onClose, onSave, onNewFolder }) => {
+const Footer: FC<FooterProps> = ({ onClose, onSave, onNewFolder, saveLoading }) => {
   const token = useToken();
   const { t } = useTranslation();
   return (
@@ -44,7 +45,7 @@ const Footer: FC<FooterProps> = ({ onClose, onSave, onNewFolder }) => {
       </div>
 
       <Space>
-        <Button type={'primary'} onClick={onSave}>
+        <Button type={'primary'} onClick={onSave} loading={saveLoading}>
           {t('save')}
         </Button>
         <Button
@@ -80,7 +81,8 @@ const CollectionsSaveRequest: FC<CollectionsSaveRequestProps> = ({
   allowTypes = [1, 3],
 }) => {
   const [newFolderMode, setNewFolderMode] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [createFolderLoading, setCreateFolderLoading] = useState(false);
+  const [saveLoading, setSaveLoading] = useState(false);
   const requestNameInputRef = useRef<InputRef>(null);
   const folderNameInputRef = useRef<InputRef>(null);
   const { t } = useTranslation();
@@ -93,11 +95,11 @@ const CollectionsSaveRequest: FC<CollectionsSaveRequestProps> = ({
     } else {
       temp = treeData;
     }
-    if (loading) {
+    if (createFolderLoading) {
       return temp.concat({ name: 'added', key: 'added', added: true });
     }
     return temp;
-  }, [treeData, selectedKey, loading]);
+  }, [treeData, selectedKey, createFolderLoading]);
 
   const [searchValue, setSearchValue] = useState('');
 
@@ -115,12 +117,22 @@ const CollectionsSaveRequest: FC<CollectionsSaveRequestProps> = ({
       open={open}
       footer={
         <Footer
+          saveLoading={saveLoading}
           onNewFolder={() => {
             setNewFolderMode(true);
           }}
           onClose={onClose}
           onSave={() => {
-            onSave(selectedKey || '', requestNameInputRef?.current?.input?.value || '');
+            setSaveLoading(true);
+            onSave(selectedKey || '', requestNameInputRef?.current?.input?.value || '')
+              .then(() => {
+                onClose();
+                setSaveLoading(false);
+              })
+              .catch(() => {
+                setCreateFolderLoading(false);
+                setSaveLoading(false);
+              });
           }}
         />
       }
@@ -234,14 +246,14 @@ const CollectionsSaveRequest: FC<CollectionsSaveRequestProps> = ({
             <Button
               size={'small'}
               onClick={() => {
-                setLoading(true);
+                setCreateFolderLoading(true);
                 setNewFolderMode(false);
                 onCreateFolder(
                   folderNameInputRef?.current?.input?.value || '',
                   selectedKey || '',
                 ).then((folderID) => {
                   setSelectedKey(folderID);
-                  setLoading(false);
+                  setCreateFolderLoading(false);
                 });
               }}
             >

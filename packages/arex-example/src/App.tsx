@@ -37,11 +37,15 @@ const App = () => {
         requestName={''}
         onCreateFolder={() => {
           return new Promise((resolve) => {
-            resolve('ss');
+            resolve('onCreateFolder');
           });
         }}
-        onSave={(folderKey, requestName) => {
-          console.log(folderKey, requestName);
+        onSave={() => {
+          return new Promise((resolve) => {
+            setTimeout(() => {
+              resolve('onSave');
+            }, 1000);
+          });
         }}
         onClose={() => {
           setOpen(false);

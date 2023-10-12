@@ -5,7 +5,7 @@ export type CollectionsSaveRequestProps = {
   open: boolean;
   requestName: string;
   treeData: TreeNode[];
-  onSave: (folderKey: string, requestName: string) => void;
+  onSave: (folderKey: string, requestName: string) => Promise<void>;
   onCreateFolder: (newFolderName: string, parentFolderKey: string) => Promise<string>;
   onClose: () => void;
   allowTypes?: number[];
