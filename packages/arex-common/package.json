@@ -1,6 +1,6 @@
 {
   "name": "arex-common",
-  "version": "0.0.1-beta.6",
+  "version": "0.0.1-beta.7",
   "type": "module",
   "main": "dist/arex-common.umd.cjs",
   "module": "dist/arex-common.js",
@@ -16,7 +16,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "allotment": "1.19.3",
-    "antd": "^5.10.0",
+    "antd": "^5.9.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

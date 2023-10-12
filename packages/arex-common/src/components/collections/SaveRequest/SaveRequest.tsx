@@ -4,12 +4,12 @@ import { Breadcrumb, Button, Input, InputRef, Modal, Space, Spin, theme, Typogra
 import { FC, useMemo, useRef, useState } from 'react';
 
 import { findNodeByKey, findPathByKey, searchNodes } from '../../../helpers';
-import { TreeNode } from '../../../token.ts';
 import { useTranslation } from '../../../useTranslation.ts';
 import MatchRow from '../../../widgets/MatchRow.tsx';
 import RequestItemDisplay from '../../../widgets/RequestItemDisplay.tsx';
 import SaveRequestDivider from '../../../widgets/SaveRequestDivider.tsx';
 import SaveRequestMainBox from '../../../widgets/SaveRequestMainBox.tsx';
+import { CollectionsSaveRequestProps } from './types.ts';
 
 const { Text } = Typography;
 const { useToken } = theme;
@@ -59,16 +59,6 @@ const Footer: FC<FooterProps> = ({ onClose, onSave, onNewFolder }) => {
   );
 };
 
-interface SaveRequestModalProps {
-  open: boolean;
-  requestName: string;
-  treeData: TreeNode[];
-  onSave: (folderKey: string, requestName: string) => void;
-  onCreateFolder: (newFolderName: string, parentFolderKey: string) => Promise<string>;
-  onClose: () => void;
-  allowTypes?: number[];
-}
-
 /*
 参数解释
 open:是否打开
@@ -79,7 +69,8 @@ onCreateFolder:创建文件夹
 onClose:关闭
 allowTypes:允许选择的类型
  */
-const CollectionsSaveRequest: FC<SaveRequestModalProps> = ({
+const CollectionsSaveRequest: FC<CollectionsSaveRequestProps> = ({
+  title,
   open,
   treeData,
   requestName,
@@ -119,7 +110,7 @@ const CollectionsSaveRequest: FC<SaveRequestModalProps> = ({
   return (
     <Modal
       centered
-      title={t('save.request')}
+      title={title || t('save.request')}
       width={650}
       open={open}
       footer={

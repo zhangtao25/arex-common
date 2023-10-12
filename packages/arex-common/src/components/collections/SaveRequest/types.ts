@@ -1,7 +1,12 @@
+import { TreeNode } from '../../../token.ts';
 
 export type CollectionsSaveRequestProps = {
-  /**
-   * The original source (left one) value
-   */
-  Editor?: any;
+  title?: string;
+  open: boolean;
+  requestName: string;
+  treeData: TreeNode[];
+  onSave: (folderKey: string, requestName: string) => void;
+  onCreateFolder: (newFolderName: string, parentFolderKey: string) => Promise<string>;
+  onClose: () => void;
+  allowTypes?: number[];
 };
