@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_arex_common_1697691974835-pr-trigger-input-set
+  identifier: Build_arex_common_1697691974835prtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: test123
+  pipeline:
+    identifier: Build_arex_common_1697691974835
+    properties:
+      ci:
+        codebase:
+          build:
+            type: PR
+            spec:
+              number: <+trigger.prNumber>
