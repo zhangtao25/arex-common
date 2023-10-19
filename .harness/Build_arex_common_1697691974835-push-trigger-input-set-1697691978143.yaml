@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_arex_common_1697691974835-push-trigger-input-set
+  identifier: Build_arex_common_1697691974835pushtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: test123
+  pipeline:
+    identifier: Build_arex_common_1697691974835
+    properties:
+      ci:
+        codebase:
+          build:
+            type: branch
+            spec:
+              branch: <+trigger.branch>
